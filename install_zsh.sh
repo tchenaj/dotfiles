@@ -39,14 +39,10 @@ antibody bundle "
     ohmyzsh/ohmyzsh path:plugins/colored-man-pages
     zsh-users/zsh-autosuggestions
     chrissicool/zsh-256color
-    zdharma/fast-syntax-highlighting
+    zdharma-continuum/fast-syntax-highlighting
+    skywind3000/z.lua
     tchenaj/dotfiles path:plugins/lazyload
 " > ~/.zsh_plugins.sh
-
-if [ ! -f ~/bin/z.lua ] || [ "$1" = "overwrite" ]; then
-    echo "Installing z.lua..."
-    curl -L https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > ~/bin/z.lua
-fi
 
 echo "Creating ~/.zshrc"
 echo "export ZSH=\"$(antibody path ohmyzsh/ohmyzsh)\"" >~/.zshrc
@@ -54,6 +50,7 @@ echo "export ZSH=\"$(antibody path ohmyzsh/ohmyzsh)\"" >~/.zshrc
 cat <<"EOF" >>~/.zshrc
 export PATH=$HOME/bin:$PATH
 _ZL_CMD=j
+export _ZL_HYPHEN=1
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245"
 
 # disable update prompt of oh-my-zsh
@@ -62,7 +59,6 @@ DISABLE_UPDATE_PROMPT=true
 #DISABLE_AUTO_UPDATE=true
 
 source ~/.zsh_plugins.sh
-eval "$(lua ~/bin/z.lua --init zsh enhanced once fzf)"
 
 [[ -f ~/.aliases ]] && . ~/.aliases
 [[ -v VSCODE_GIT_IPC_HANDLE ]] && conda --version >/dev/null 2>&1
